@@ -20,8 +20,9 @@ ak3() {
 clean() {
     echo GREEN "Removing build files..."
     rm -rf temp/
-    rm vendor_dlkm.img
+    rm -rf build/
     . scripts/build_kernel.sh clean
+    rm -rf android_kernel_oneplus_sm8350/out
     echo GREEN "Build files removed."
 }
 
