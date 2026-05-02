@@ -1,5 +1,5 @@
 # Kernel build environment for OnePlus SM8350 Kernel
-This repository uses various scripts to create a building environment for the [OnePlus SM8350 kernel tree]().
+This repository uses various scripts to create a building environment for the [OnePlus SM8350 kernel tree](https://github.com/Gamesmes90/android_kernel_oneplus_sm8350).
 
 ### Requirements
 - A linux distro 
