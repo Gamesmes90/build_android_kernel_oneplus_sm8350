@@ -49,6 +49,13 @@ else
             ak3)
                 ak3
                 ;;
+            lemonade)
+                . utils/lineage.sh lemonade
+                ;;
+            lemonadep)
+                . utils/lineage.sh lemonadep
+                ;;
+            
             clean)
                 clean
                 ;;
@@ -61,14 +68,16 @@ else
                 echo "  kernel_clean                    - Clean kernel build files"
                 echo "  vendor                          - Build vendor_dlkm.img and vendor ramdisk modules"
                 echo "  ak3                             - Build AnyKernel3 zip"
-                echo "  clean                           - Remove the build files"
+                echo "  lemonade                        - Download latest Lineage OS ROM for OnePlus 9"
+                echo "  lemonadep                       - Download latest Lineage OS ROM for OnePlus 9 Pro"
+                echo "  clean                           - Remove the build files"      
                 echo ""
                 echo "If no arguments are provided, all functions are run in order."
                 echo "Use 'help', '-h', or '--help' to show this message."
                 ;;
             *)
                 cecho RED "Unknown function: $arg"
-                echo "Available functions: toolchain_setup, build_kernel, build_vendor_dlkm, build_vendor_ramdisk_modules, build_ak3_zip, clean"
+                echo "Available functions: toolchain_setup, kernel, kernel_clean, vendor, ak3, lemonade, lemonadep, clean"
                 echo "Use '$0 help' for more information."
                 exit 1
                 ;;
