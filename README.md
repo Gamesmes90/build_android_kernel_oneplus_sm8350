@@ -52,6 +52,12 @@ Main script. Contains all possibile commands.
 - ``ak3``
     - Packages the kernel with anykernel3
     - See [ak3.sh](./scripts/ak3.sh) for details.
+- ``lemonade``
+    - Downloads the latest Lineage OS ROM for OnePlus 9
+    - See [lineage.sh](./utils/lineage.sh) for details.
+- ``lemonadep``
+    - Downloads the latest Lineage OS ROM for OnePlus 9 Pro
+    - See [lineage.sh](./utils/lineage.sh) for details.
 - ``clean``
     - Cleans all build artifacts
     - Implemented in [build.sh](build.sh)
@@ -64,6 +70,8 @@ These scripts are used by the main scripts for various utility functions
     - Extracts the ``vendor_dlkm.img`` from the provided Lineage OS zip file
 - [set_env.sh](./utils/set_env.sh)
     - Exports to ``PATH`` the locations of toolchain utilities
+- [lineage.sh](./utils/lineage.sh)
+    - Downloads the latest Lineage OS rom for the specified device
 
 ## Toolchain
 The toolchain is installed in ``~/android/toolchain_oneplus_sm8350`` and has the following tools
