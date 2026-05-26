@@ -30,15 +30,10 @@ jobs:
           bash build.sh
           mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350_$CURRENT_DATE.zip
 
-      - name: Generate Changelog and Notes
+      - name: Generate Changelog
         run: |
-          LINEAGE_ZIP=$(find *.zip)
           cd android_kernel_oneplus_sm8350
           bash .github/generate_changelog.sh
-          echo "" >> .github/release_notes.txt
-          echo "## Notes" >> .github/release_notes.txt
-          echo "" >> .github/release_notes.txt
-          echo "vendor_dlkm extracted from $LINEAGE_ZIP" >> .github/release_notes.txt
 
       - name: Release
         uses: softprops/action-gh-release@v3
