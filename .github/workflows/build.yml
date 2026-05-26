@@ -1,0 +1,51 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Download kernel tree
+        run: git clone https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
+
+      - name: Initialize Kernel SU Next
+        run: |
+          cd android_kernel_oneplus_sm8350
+          bash init_ksu.sh
+          cd ..
+
+      - name: Downloade Lineage OS build
+        run: bash build.sh lemonadep
+      
+      - name: Setup and build
+        run: |
+          CURRENT_DATE=$(date '+%Y-%m-%d')
+          echo "DATE=$CURRENT_DATE" >> $GITHUB_ENV
+          bash build.sh
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350_$CURRENT_DATE.zip
+
+      - name: Generate Changelog and Notes
+        run: |
+          LINEAGE_ZIP=$(find *.zip)
+          cd android_kernel_oneplus_sm8350
+          bash .github/generate_changelog.sh
+          echo "" >> .github/release_notes.txt
+          echo "## Notes" >> .github/release_notes.txt
+          echo "" >> .github/release_notes.txt
+          echo "vendor_dlkm extracted from $LINEAGE_ZIP" >> .github/release_notes.txt
+
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        with:
+          repository: Gamesmes90/android_kernel_oneplus_sm8350
+          tag_name: 1.0-a16_${{ env.DATE }}
+          name: Kernel OnePlus sm8350 1.0-a16_${{ env.DATE }}
+          files: build/kernel-oneplus-sm8350_${{ env.DATE }}.zip
+          body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
+          token: ${{ secrets.TOKEN }}
