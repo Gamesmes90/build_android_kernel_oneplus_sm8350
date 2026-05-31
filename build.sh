@@ -18,12 +18,12 @@ ak3() {
 }
 
 clean() {
-    echo GREEN "Removing build files..."
+    cecho YELLOW "Removing build files..."
     rm -rf temp/
     rm -rf build/
     . scripts/build_kernel.sh clean
     rm -rf android_kernel_oneplus_sm8350/out
-    echo GREEN "Build files removed."
+    cecho GREEN "Build files removed."
 }
 
 if [ $# -eq 0 ]; then

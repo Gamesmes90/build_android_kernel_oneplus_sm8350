@@ -14,10 +14,10 @@ jobs:
       - name: Download kernel tree
         run: git clone https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
 
-      - name: Initialize Kernel SU Next
+      - name: Initialize Kernel SU Next SUSFS
         run: |
           cd android_kernel_oneplus_sm8350
-          bash init_ksu.sh
+          bash init_ksu.sh susfs
           cd ..
 
       - name: Downloade Lineage OS build
@@ -39,8 +39,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           repository: Gamesmes90/android_kernel_oneplus_sm8350
-          tag_name: 1.0-a16_${{ env.DATE }}
-          name: Kernel OnePlus sm8350 1.0-a16_${{ env.DATE }}
+          tag_name: 1.1-a16_${{ env.DATE }}
+          name: Kernel OnePlus sm8350 1.1-a16_${{ env.DATE }}
           files: build/kernel-oneplus-sm8350_${{ env.DATE }}.zip
           body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
           token: ${{ secrets.TOKEN }}
