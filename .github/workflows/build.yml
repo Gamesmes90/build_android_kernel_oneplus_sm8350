@@ -25,10 +25,10 @@ jobs:
       
       - name: Setup and build
         run: |
-          CURRENT_DATE=$(date '+%Y-%m-%d')
-          echo "DATE=$CURRENT_DATE" >> $GITHUB_ENV
+          source .github/workflows/versioning
+          echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
           bash build.sh
-          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350_$CURRENT_DATE.zip
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}.zip
 
       - name: Generate Changelog
         run: |
@@ -39,8 +39,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           repository: Gamesmes90/android_kernel_oneplus_sm8350
-          tag_name: 1.3-a16_${{ env.DATE }}
-          name: Kernel OnePlus sm8350 1.3-a16_${{ env.DATE }}
-          files: build/kernel-oneplus-sm8350_${{ env.DATE }}.zip
+          tag_name: ${{ env.TAG }}
+          name: Kernel OnePlus sm8350 ${{ env.TAG }}
+          files: build/kernel-oneplus-sm8350-${{ env.TAG }}.zip
           body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
           token: ${{ secrets.TOKEN }}
