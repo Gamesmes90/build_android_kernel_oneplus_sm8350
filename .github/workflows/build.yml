@@ -28,7 +28,7 @@ jobs:
           source .github/workflows/versioning
           echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
           bash build.sh
-          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}.zip
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-$VERSION-$ANDROID_VERSION-$DATE.zip
 
       - name: Generate Changelog
         run: |
