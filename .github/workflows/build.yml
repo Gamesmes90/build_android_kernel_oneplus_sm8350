@@ -40,7 +40,7 @@ jobs:
         with:
           repository: Gamesmes90/android_kernel_oneplus_sm8350
           tag_name: ${{ env.TAG }}
-          name: Kernel OnePlus sm8350 ${{ env.TAG }}
+          name: ${{ env.TAG }}
           files: build/kernel-oneplus-sm8350-${{ env.TAG }}.zip
           body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
           token: ${{ secrets.TOKEN }}

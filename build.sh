@@ -1,5 +1,6 @@
 #!/bin/bash
 source utils/colors.sh
+set -euo pipefail
 
 toolchain_setup() {
     . scripts/toolchain_setup.sh
