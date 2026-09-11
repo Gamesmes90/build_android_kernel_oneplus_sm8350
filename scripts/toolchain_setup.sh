@@ -68,6 +68,10 @@ if [ -d $AK3_REPO_PATH ]; then
 else
     cecho RED "✗ anykernel3-oneplus-sm8350 not found in $TOOLCHAIN_PATH, downloading..."
     mkdir -p "$TOOLCHAIN_PATH"
-    git clone --branch "$AK3_BRANCH" "$AK3_REPO" "$TOOLCHAIN_PATH/anykernel3-oneplus-sm8350" || exit 1
+    git clone --branch "$AK3_BRANCH" "$AK3_REPO" "$AK3_REPO_PATH" || exit 1
     cecho GREEN "✓ anykernel3-oneplus-sm8350 downloaded"
 fi
+
+# Inject Kernel tag into ksu module
+source .github/workflows/versioning
+sed -i "s|KERNEL_TAG=.*|KERNEL_TAG=$VERSION-$ANDROID_VERSION-$DATE|g" $AK3_REPO_PATH/ksu_module/action.sh
