@@ -26,9 +26,29 @@ jobs:
       - name: Setup and build
         run: |
           source .github/workflows/versioning
+
+          # This check is to avoid uploading to the same tag if there happens to be multiple builds in one day
+          # Initialize variables
+          NEW_VERSION="$VERSION"
+          TAG="$NEW_VERSION-$ANDROID_VERSION-$DATE"
+          COUNTER=1
+          
+          # Query the remote repo. Loop and update NEW_VERSION and TAG if it already exists.
+          while git ls-remote --tags "https://${{ secrets.TOKEN }}@github.com/Gamesmes90/android_kernel_oneplus_sm8350.git" "refs/tags/$TAG" | grep -q "refs/tags/$TAG"; do
+            NEW_VERSION="${VERSION}-${COUNTER}"
+            TAG="$NEW_VERSION-$ANDROID_VERSION-$DATE"
+            COUNTER=$((COUNTER + 1))
+          done
+          
+          echo "Available tag generated: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          
+          # Update the VERSION variable in the file
+          sed -i "s/^VERSION=.*/VERSION=$NEW_VERSION/" .github/workflows/versioning
+
           echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
           bash build.sh
-          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-$VERSION-$ANDROID_VERSION-$DATE.zip
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${TAG}.zip
 
       - name: Generate Changelog
         run: |
