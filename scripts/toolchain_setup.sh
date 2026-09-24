@@ -1,6 +1,20 @@
 #!/bin/bash
 source utils/colors.sh
 
+check_updates () {
+    cd $1
+    cecho YELLOW "[*] Checking $2 for updates"
+    if git pull; then
+        cd $SCRIPT_DIR && cd ..
+        cecho GREEN "✓ $2 is up to date"
+    else
+        echo "✗ Failed to update $2"
+        exit 1
+    fi
+}
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 ENV_ROOT=~/android
 TOOLCHAIN_PATH="${ENV_ROOT}/toolchain_oneplus_sm8350"
 
@@ -17,6 +31,7 @@ echo "Checking build-tools: $BUILD_TOOLS"
 echo "Branch: $BUILD_TOOLS_BRANCH"
 if [ -d "$TOOLCHAIN_PATH/build-tools" ]; then
     cecho GREEN "✓ build-tools found in $TOOLCHAIN_PATH"
+    check_updates $TOOLCHAIN_PATH/build-tools "build-tools"
 else
     cecho RED "✗ build-tools not found in $TOOLCHAIN_PATH, downloading..."
     mkdir -p "$TOOLCHAIN_PATH"
@@ -65,6 +80,7 @@ AK3_BRANCH="lemonade"
 echo "Checking anykernel3-oneplus-sm8350: $AK3_REPO"
 if [ -d $AK3_REPO_PATH ]; then
     cecho GREEN "✓ anykernel3-oneplus-sm8350 found in $TOOLCHAIN_PATH"
+    check_updates $AK3_REPO_PATH "anykernel3"
 else
     cecho RED "✗ anykernel3-oneplus-sm8350 not found in $TOOLCHAIN_PATH, downloading..."
     mkdir -p "$TOOLCHAIN_PATH"
