@@ -17,7 +17,7 @@ jobs:
       - name: Initialize Kernel SU Next SUSFS
         run: |
           cd android_kernel_oneplus_sm8350
-          bash init_ksu.sh susfs
+          bash scripts/init_ksu.sh susfs
           cd ..
 
       - name: Downloade Lineage OS build
