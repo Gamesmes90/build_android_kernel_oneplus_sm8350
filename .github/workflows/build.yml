@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Download kernel tree
-        run: git clone https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
+        run: git clone -b android-16 https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
 
       - name: Initialize Kernel SU Next SUSFS
         run: |

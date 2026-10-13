@@ -76,7 +76,7 @@ fi
 
 AK3_REPO="https://github.com/Gamesmes90/anykernel3-oneplus-sm8350"
 AK3_REPO_PATH="$TOOLCHAIN_PATH/anykernel3-oneplus-sm8350"
-AK3_BRANCH="lemonade"
+AK3_BRANCH="a16"
 echo "Checking anykernel3-oneplus-sm8350: $AK3_REPO"
 if [ -d $AK3_REPO_PATH ]; then
     cecho GREEN "✓ anykernel3-oneplus-sm8350 found in $TOOLCHAIN_PATH"
