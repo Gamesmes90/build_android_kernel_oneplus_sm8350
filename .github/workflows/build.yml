@@ -14,16 +14,10 @@ jobs:
       - name: Download kernel tree
         run: git clone https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
 
-      - name: Initialize Kernel SU Next SUSFS
-        run: |
-          cd android_kernel_oneplus_sm8350
-          bash scripts/init_ksu.sh susfs
-          cd ..
-
       - name: Downloade Lineage OS build
         run: bash build.sh lemonadep
       
-      - name: Setup and build
+      - name: Versioning Setup
         run: |
           source .github/workflows/versioning
 
@@ -47,8 +41,29 @@ jobs:
           sed -i "s/^VERSION=.*/VERSION=$NEW_VERSION/" .github/workflows/versioning
 
           echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
+
+      - name: Initialize BakaSU
+        run: |
+          cd android_kernel_oneplus_sm8350
+          bash scripts/init_ksu.sh bakasu
+          cd ..
+
+      - name: Build with BakaSU
+        run: |
           bash build.sh
-          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${TAG}.zip
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu.zip
+
+      - name: Initialize KernelSU Next SUSFS
+        run: |
+          rm -rf android_kernel_oneplus_sm8350/KernelSU
+          cd android_kernel_oneplus_sm8350
+          bash scripts/init_ksu.sh susfs
+          cd ..
+
+      - name: Build with KernelSU Next
+        run: |
+          bash build.sh
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}-ksun.zip
 
       - name: Generate Changelog
         run: |
@@ -61,6 +76,8 @@ jobs:
           repository: Gamesmes90/android_kernel_oneplus_sm8350
           tag_name: ${{ env.TAG }}
           name: ${{ env.TAG }}
-          files: build/kernel-oneplus-sm8350-${{ env.TAG }}.zip
+          files: |
+            build/kernel-oneplus-sm8350-${{ env.TAG }}-ksun.zip
+            build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu.zip
           body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
           token: ${{ secrets.TOKEN }}
