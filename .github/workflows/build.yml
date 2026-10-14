@@ -58,6 +58,10 @@ jobs:
           rm -rf android_kernel_oneplus_sm8350/KernelSU
           cd android_kernel_oneplus_sm8350
           bash scripts/init_ksu.sh susfs
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add fs/exec.c
+          git commit -m "Remove ksu_handle_post_execveat"
           cd ..
 
       - name: Build with KernelSU Next
