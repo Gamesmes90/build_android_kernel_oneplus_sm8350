@@ -1,5 +1,7 @@
 #!/bin/bash
 source utils/colors.sh
+# Toolchain variables
+. utils/toolchain_env.sh
 
 check_updates () {
     cd $1
@@ -15,46 +17,34 @@ check_updates () {
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-ENV_ROOT=~/android
-TOOLCHAIN_PATH="${ENV_ROOT}/toolchain_oneplus_sm8350"
 
-# Check for build-tools and clang repository
-BUILD_TOOLS="https://android.googlesource.com/kernel/prebuilts/build-tools"
-COMPILER="https://gitlab.com/kei-space/clang/r547379.git"
-BUILD_TOOLS_BRANCH="main-kernel-build-2024"
-COMPILER_BUILD="clang-r547379"
-
+# Check toolchain
 cecho YELLOW "[*] Checking toolchain..."
 
 # Check for build-tools
 echo "Checking build-tools: $BUILD_TOOLS"
 echo "Branch: $BUILD_TOOLS_BRANCH"
-if [ -d "$TOOLCHAIN_PATH/build-tools" ]; then
+if [ -d $BUILD_TOOLS_PATH ]; then
     cecho GREEN "✓ build-tools found in $TOOLCHAIN_PATH"
-    check_updates $TOOLCHAIN_PATH/build-tools "build-tools"
 else
     cecho RED "✗ build-tools not found in $TOOLCHAIN_PATH, downloading..."
     mkdir -p "$TOOLCHAIN_PATH"
-    git clone --branch "$BUILD_TOOLS_BRANCH" "$BUILD_TOOLS" "$TOOLCHAIN_PATH/build-tools" || exit 1
+    mkdir $BUILD_TOOLS_PATH && curl -L  $BUILD_TOOLS | tar xz --warning=no-timestamp -C $BUILD_TOOLS_PATH
     cecho GREEN "✓ build-tools downloaded"
 fi
 
 # Check for clang
 echo "Checking clang: $COMPILER"
-if [ -d "$TOOLCHAIN_PATH/$COMPILER_BUILD" ]; then
+if [ -d $COMPILER_PATH ]; then
     cecho GREEN "✓ Clang found in $TOOLCHAIN_PATH"
 else
     cecho RED "✗ Clang not found in $TOOLCHAIN_PATH, downloading..."
     mkdir -p "$TOOLCHAIN_PATH"
-    git clone "$COMPILER" "$TOOLCHAIN_PATH/$COMPILER_BUILD" || exit 1
+    mkdir $COMPILER_PATH && curl -L $COMPILER | tar xz --warning=no-timestamp -C $COMPILER_PATH || exit 1
     cecho GREEN "✓ Clang downloaded"
 fi
 
 # Check for payload-dumper-go
-PAYLOAD_DUMPER_REPO="ssut/payload-dumper-go"
-PAYLOAD_DUMPER_PATH="$TOOLCHAIN_PATH/payload-dumper-go"
-PAYLOAD_DUMPER_BINARY="payload-dumper-go"
-
 echo "Checking payload-dumper-go: https://github.com/$PAYLOAD_DUMPER_REPO"
 if [ -d "$PAYLOAD_DUMPER_PATH" ]; then
     cecho GREEN "✓ payload-dumper-go found in $TOOLCHAIN_PATH"
@@ -74,9 +64,7 @@ else
     cecho GREEN "✓ payload-dumper-go downloaded"
 fi
 
-AK3_REPO="https://github.com/Gamesmes90/anykernel3-oneplus-sm8350"
-AK3_REPO_PATH="$TOOLCHAIN_PATH/anykernel3-oneplus-sm8350"
-AK3_BRANCH="lemonade"
+# Check for anykernel3
 echo "Checking anykernel3-oneplus-sm8350: $AK3_REPO"
 if [ -d $AK3_REPO_PATH ]; then
     cecho GREEN "✓ anykernel3-oneplus-sm8350 found in $TOOLCHAIN_PATH"
