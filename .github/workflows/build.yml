@@ -36,11 +36,6 @@ jobs:
           
           echo "Available tag generated: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
-          
-          # Update the VERSION variable in the file
-          sed -i "s/^VERSION=.*/VERSION=$NEW_VERSION/" .github/workflows/versioning
-
-          echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
 
       - name: Initialize BakaSU
         run: |
