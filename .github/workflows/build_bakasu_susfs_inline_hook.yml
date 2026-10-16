@@ -1,0 +1,61 @@
+name: Build and Release BakaSU with SUSFS Inline Hook
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Release"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Only run if the first workflow succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "Starting build..."
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Get Version Info
+        run: |
+          source .github/workflows/versioning
+          echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
+
+      - name: Download kernel tree
+        run: git clone --depth 1 https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git -b lineage-24.0
+
+      - name: Downloade Lineage OS build
+        run: bash build.sh lemonadep
+
+      - name: Set commit hash
+        run: |
+          cd android_kernel_oneplus_sm8350
+          # Pin commit hash so the build has the latest commit hash before patching (eg. 5.4.302-qgki-g[hash])
+          # This prevents the '-dirty' at the end of the kernel string
+          echo "-g$(git rev-parse --short=12 HEAD)" > .scmversion
+          cd ..
+
+      - name: Download Patches
+        run: git clone --depth 1 https://github.com/Gamesmes90/patches_android_kernel_oneplus_sm8350.git
+
+      - name: Patch the kernel
+        run: |
+          cd patches_android_kernel_oneplus_sm8350
+          bash patch_kernel.sh ../android_kernel_oneplus_sm8350/ nogit
+          cd ..
+
+      - name: Build the kernel
+        run: |
+          bash build.sh
+          mv build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu_susfs-inline-hook.zip
+      
+      - name: Add to Release
+        uses: softprops/action-gh-release@v3
+        with:
+          repository: Gamesmes90/android_kernel_oneplus_sm8350
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          files: build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu_susfs-inline-hook.zip
+          token: ${{ secrets.TOKEN }}
+      
