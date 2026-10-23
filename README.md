@@ -77,16 +77,16 @@ These scripts are used by the main scripts for various utility functions
 The toolchain is installed in ``~/android/toolchain_oneplus_sm8350`` and has the following tools
 - [build-tools](https://android.googlesource.com/kernel/prebuilts/build-tools)
     - Repository: https://android.googlesource.com/kernel/prebuilts/build-tools
-    - Branch: [main-kernel-build-2024](https://android.googlesource.com/kernel/prebuilts/build-tools/+/refs/heads/main-kernel-build-2024)
+    - Branch: [main-kernel-2026](https://android.googlesource.com/kernel/prebuilts/build-tools/+/refs/heads/main-kernel-2026)
     - Contains various tools for building android images
     - Mainly used for mkfs.erofs implementation
-- [clang-r547379](https://gitlab.com/kei-space/clang/r547379.git)
-    - Repository: https://gitlab.com/kei-space/clang/r547379.git
-    - Version: 20.0.0
+    - Archive file downloaded with Gitiles `+archive` endpoint
+- [clang-r596125](https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/tags/android-security-17.0.0_r2/clang-r596125/)
+    - Repository: https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/tags/android-security-17.0.0_r2/clang-r596125/
+    - Version: 22.0.2
     - Main compiler
-    - Compiled from [this revision](https://android.googlesource.com/toolchain/llvm-project/+/b718bcaf8c198c82f3021447d943401e3ab5bd54)
-    - This repository is a mirror of [the prebuilt from google](https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/)
-        - This is used instead of google's repository because the google one contains various other clang versions not needed that make the download size unnecessarily big
+    - Compiled from [this revision](https://android.googlesource.com/toolchain/llvm-project/+/refs/heads/mirror-goog-llvm-r596125-release)
+    - Archive file downloaded with Gitiles `+archive` endpoint
 - [payload-dumper-go](https://github.com/ssut/payload-dumper-go)
     - Repository: https://github.com/ssut/payload-dumper-go
     - Version: latest
