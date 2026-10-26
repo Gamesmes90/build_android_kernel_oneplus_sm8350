@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Download kernel tree
-        run: git clone --depth 1 https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
+        run: git clone --depth 100 https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git
 
       - name: Downloade Lineage OS build
         run: bash build.sh lemonadep
