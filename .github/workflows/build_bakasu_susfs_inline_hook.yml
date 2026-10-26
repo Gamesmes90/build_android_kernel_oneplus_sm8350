@@ -20,6 +20,11 @@ jobs:
           source .github/workflows/versioning
           echo "TAG=$VERSION-$ANDROID_VERSION-$DATE" >> $GITHUB_ENV
 
+      - name: Install wiggle
+        run: |
+          sudo apt-get install -y wiggle
+          wiggle --version
+
       - name: Download kernel tree
         run: git clone --depth 1 https://github.com/Gamesmes90/android_kernel_oneplus_sm8350.git -b lineage-24.0
 
