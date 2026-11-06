@@ -59,6 +59,6 @@ jobs:
           repository: Gamesmes90/android_kernel_oneplus_sm8350
           tag_name: ${{ env.TAG }}
           name: ${{ env.TAG }}
-          files: build/kernel-oneplus-sm8350.zip build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu_susfs-inline-hook.zip
+          files: build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu_susfs-inline-hook.zip
           token: ${{ secrets.TOKEN }}
       
