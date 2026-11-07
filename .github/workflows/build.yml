@@ -80,4 +80,5 @@ jobs:
             build/kernel-oneplus-sm8350-${{ env.TAG }}-ksun.zip
             build/kernel-oneplus-sm8350-${{ env.TAG }}-bakasu.zip
           body_path: android_kernel_oneplus_sm8350/.github/release_notes.txt
+          generate_release_notes: true
           token: ${{ secrets.TOKEN }}
