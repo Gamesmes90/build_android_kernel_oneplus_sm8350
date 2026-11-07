@@ -70,6 +70,8 @@ These scripts are used by the main scripts for various utility functions
     - Extracts the ``vendor_dlkm.img`` from the provided Lineage OS zip file
 - [set_env.sh](./utils/set_env.sh)
     - Exports to ``PATH`` the locations of toolchain utilities
+- [toolchain_env.sh](./utils/toolchain_env.sh)
+    - Contains environmental variables used by [set_env.sh](./utils/set_env.sh) and [toolchain_setup.sh](./scripts/toolchain_setup.sh)
 - [lineage.sh](./utils/lineage.sh)
     - Downloads the latest Lineage OS rom for the specified device
 
